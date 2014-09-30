@@ -18,7 +18,7 @@ public:
     void setFileName(const std::string& inputFileName);
     bool readData();
     bool prepareData();
-    void quickSort();
+    bool quickSort(char**,int,int);
     void sortData();
     void outputData(const std::string& outputFileName);
     void resize();

@@ -67,7 +67,12 @@ bool SortingCompetition::prepareData(){
     return true;
 }
 
-void SortingCompetition::quickSort(){
+bool SortingCompetition::quickSort(char ** words, int top, int bottom){
+
+    if(bottom<top){
+
+    }
+    return true;
 
 }
 
