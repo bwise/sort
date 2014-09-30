@@ -27,5 +27,6 @@ OTHER_FILES += \
     modestproposal.txt \
     shakespeare.txt \
     siddhartha.txt \
-    warandpeace.txt
+    warandpeace.txt \
+    outfile1.txt
 

@@ -118,14 +118,24 @@ SortingCompetition::~SortingCompetition(){
 bool SortingCompetition::lessThan(unsigned long int index1, unsigned long int index2){
     if(lengthToSort[index1]<lengthToSort[index2])
         return true;
-    else if(lengthToSort[index1]==lengthToSort[index2])
-        if(strcmp(wordsToSort[index1],wordsToSort[index2]<0))
-            return true;
+    else{
+        if(lengthToSort[index1]==lengthToSort[index2]){
+            if(strcmp(wordsToSort[index1],wordsToSort[index2])<0)
+                return true;
+            else
+                return false;
+        }
         else
             return false;
+    }
 }
 
 void SortingCompetition::swap( unsigned long int index1, unsigned long int index2){
+    if(index1==index2)
+        return;
+
+    cout << wordsToSort[index1]<<wordsToSort[index2];
+
     char * tempPtr=wordsToSort[index1];
     wordsToSort[index1]=wordsToSort[index2];
     wordsToSort[index2]=tempPtr;
@@ -134,4 +144,20 @@ void SortingCompetition::swap( unsigned long int index1, unsigned long int index
     lengthToSort[index1]=lengthToSort[index2];
     lengthToSort[index1]=tempInt;
 
+    cout << wordsToSort[index1]<<wordsToSort[index2] << "\n";
+
+}
+
+void SortingCompetition::insertionSort(unsigned long int size){
+
+    int currentmax=0;
+
+    for(unsigned long int i=1; i<size; i++)
+        if(lessThan(currentmax,i))
+            currentmax=i;
+
+    swap(currentmax,size);
+
+    if(size>1)
+        insertionSort(size-1);
 }
