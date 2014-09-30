@@ -9,6 +9,8 @@ private:
     std::string fileName;
     char** allWords;
     char** wordsToSort;
+    int* lengthOfWords;
+    int* lengthToSort;
     int allWordsCapacity, allWordsSize;
 
 public:
