@@ -11,8 +11,9 @@ using namespace std;
 SortingCompetition::SortingCompetition(const string &inputFileName)
 {
     fileName = inputFileName;
-    allWordsCapacity=0;
+    allWordsCapacity=10;
     allWordsSize=0;
+    allWords = new char* [allWordsCapacity];
 }
 
 void SortingCompetition::setFileName(const string &inputFileName){
@@ -45,6 +46,11 @@ void SortingCompetition::resize(){
 }
 
 bool SortingCompetition::prepareData(){
+    wordsToSort = new char* [allWordsSize];
+    for(int i =0; i< allWordsSize-1; i++){
+        wordsToSort[i] = new char [strlen(allWords[i])];
+        strcpy(wordsToSort[i], allWords[i]);
+    }
     return true;
 }
 
@@ -54,8 +60,8 @@ void SortingCompetition::sortData(){
 
 void SortingCompetition::outputData(const string &outputFileName){
     ofstream fout(outputFileName, ios::out);
-    for(int i=0; i< allWordsSize; i++){
-        fout<<allWords[i];
+    for(int i=0; i< allWordsSize-1; i++){
+        fout<<wordsToSort[i];
     }
 }
 

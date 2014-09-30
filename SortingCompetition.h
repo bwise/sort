@@ -8,6 +8,7 @@ class SortingCompetition
 private:
     std::string fileName;
     char** allWords;
+    char** wordsToSort;
     int allWordsCapacity, allWordsSize;
 
 public:
