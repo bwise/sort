@@ -14,6 +14,7 @@ private:
     int allWordsCapacity, allWordsSize;
     bool lessThan(unsigned long int, unsigned long int);
     void swap(unsigned long int, unsigned long int);
+    void insertionSort(unsigned long int);
 
 public:
     SortingCompetition(const std::string& inputFileName);
