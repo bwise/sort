@@ -15,6 +15,7 @@ SortingCompetition::SortingCompetition(const string &inputFileName)
     allWordsSize=0;
     allWords = new char* [allWordsCapacity];
     lengthOfWords = new int[allWordsCapacity];
+
 }
 
 void SortingCompetition::setFileName(const string &inputFileName){
@@ -23,9 +24,6 @@ void SortingCompetition::setFileName(const string &inputFileName){
 
 bool SortingCompetition::readData(){
     ifstream fin(fileName, ios::in);
-    if(!fin){
-        cout<<"cant open";
-    }
     char buffer [8100] ={};
     while(!fin.eof()){
         fin>>buffer;
@@ -69,15 +67,16 @@ bool SortingCompetition::prepareData(){
 
 bool SortingCompetition::quickSort(int bottom, int top){
     int pivot, i,j;
-    if(bottom<top){
-        if(lessThan(top,bottom)&&lessThan(top/2,top))
-            pivot = top;
-        else if(lessThan(bottom,top)&&lessThan(top/2, bottom))
-            pivot =bottom;
-        else
-            pivot = top/2;
+    if(bottom<=top){
         i = top-1;
         j=bottom+1;
+        if(lessThan(i,j)&&lessThan(i/2,i))
+            pivot = i;
+        else if(lessThan(j,i)&&lessThan(i/2, j))
+            pivot =j;
+        else
+            pivot = i/2;
+
 
         while(j<i){
             while(lessThan(i,pivot)&&i>0){
@@ -88,7 +87,6 @@ bool SortingCompetition::quickSort(int bottom, int top){
             }
 
         }
-
         swap(i,j);
         quickSort(pivot+1,top);
         quickSort(bottom,pivot);
@@ -110,10 +108,6 @@ void SortingCompetition::outputData(const string &outputFileName){
     fout.close();
 }
 
-SortingCompetition::~SortingCompetition(){
-     delete[] allWords;
-     delete allWords;
-}
 
 bool SortingCompetition::lessThan(unsigned long int index1, unsigned long int index2){
     if(lengthToSort[index1]<lengthToSort[index2])
@@ -161,3 +155,9 @@ void SortingCompetition::insertionSort(unsigned long int size){
     if(size>1)
         insertionSort(size-1);
 }
+
+SortingCompetition::~SortingCompetition(){
+     delete[] allWords;
+     delete allWords;
+}
+

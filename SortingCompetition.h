@@ -13,7 +13,6 @@ private:
     int* lengthToSort;
     unsigned long allWordsCapacity, allWordsSize;
     bool lessThan(unsigned long int, unsigned long int);
-    bool lessThan(unsigned long int, unsigned long int, char**,int*);
     void swap(unsigned long int, unsigned long int);
     void insertionSort(unsigned long int);
 
