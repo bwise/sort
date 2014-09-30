@@ -12,13 +12,16 @@ private:
     int* lengthOfWords;
     int* lengthToSort;
     unsigned long allWordsCapacity, allWordsSize;
-
+    bool lessThan(unsigned long int, unsigned long int);
+    bool lessThan(unsigned long int, unsigned long int, char**,int*);
+    void swap(unsigned long int, unsigned long int);
+    void swap(unsigned long int, unsigned long int,char**,int*);
 public:
     SortingCompetition(const std::string& inputFileName);
     void setFileName(const std::string& inputFileName);
     bool readData();
     bool prepareData();
-    bool quickSort(char**,int,int);
+    bool quickSort(int,int);
     void sortData();
     void outputData(const std::string& outputFileName);
     void resize();

@@ -14,9 +14,11 @@ int main()
     start=chrono::system_clock::now();
     sort->readData();
     sort->prepareData();
-
     sort->sortData();
     end=chrono::system_clock::now();
+
+    sort->sortData();
+
 
     sort->outputData("outfile1.txt");
 

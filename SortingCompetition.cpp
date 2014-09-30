@@ -67,17 +67,38 @@ bool SortingCompetition::prepareData(){
     return true;
 }
 
-bool SortingCompetition::quickSort(char ** words, int top, int bottom){
-
+bool SortingCompetition::quickSort(int bottom, int top){
+    int pivot, i,j;
     if(bottom<top){
+        if(lessThan(top,bottom)&&lessThan(top/2,top))
+            pivot = top;
+        else if(lessThan(bottom,top)&&lessThan(top/2, bottom))
+            pivot =bottom;
+        else
+            pivot = top/2;
+        i = top-1;
+        j=bottom+1;
 
+        while(j<i){
+            while(lessThan(i,pivot)&&i>0){
+                i--;
+            }
+            while(lessThan(pivot,j)&&j<top){
+                j++;
+            }
+
+        }
+
+        swap(i,j);
+        quickSort(pivot+1,top);
+        quickSort(bottom,pivot);
     }
     return true;
 
 }
 
 void SortingCompetition::sortData(){
-
+    quickSort(0, allWordsSize-1);
 }
 
 
@@ -92,4 +113,25 @@ void SortingCompetition::outputData(const string &outputFileName){
 SortingCompetition::~SortingCompetition(){
      delete[] allWords;
      delete allWords;
+}
+
+bool SortingCompetition::lessThan(unsigned long int index1, unsigned long int index2){
+    if(lengthToSort[index1]<lengthToSort[index2])
+        return true;
+    else if(lengthToSort[index1]==lengthToSort[index2])
+        if(strcmp(wordsToSort[index1],wordsToSort[index2]<0))
+            return true;
+        else
+            return false;
+}
+
+void SortingCompetition::swap( unsigned long int index1, unsigned long int index2){
+    char * tempPtr=wordsToSort[index1];
+    wordsToSort[index1]=wordsToSort[index2];
+    wordsToSort[index2]=tempPtr;
+
+    int tempInt = lengthToSort[index1];
+    lengthToSort[index1]=lengthToSort[index2];
+    lengthToSort[index1]=tempInt;
+
 }
