@@ -9,7 +9,7 @@ int main()
 {
     chrono::time_point<chrono::system_clock> start, end;
 
-    SortingCompetition* sort = new SortingCompetition("thingsToChange");
+    SortingCompetition* sort = new SortingCompetition("\testfiles\bible");
     sort->readData();
     sort->prepareData();
 
