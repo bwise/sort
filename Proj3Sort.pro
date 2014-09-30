@@ -19,5 +19,13 @@ OTHER_FILES += \
     testfiles/shakespeare.txt \
     testfiles/siddhartha.txt \
     testfiles/warandpeace.txt \
-    thingsToChange
+    thingsToChange \
+    aliceinwonderland.txt \
+    allfiles.txt \
+    bible.txt \
+    huckfinn.txt \
+    modestproposal.txt \
+    shakespeare.txt \
+    siddhartha.txt \
+    warandpeace.txt
 

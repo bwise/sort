@@ -79,3 +79,24 @@ SortingCompetition::~SortingCompetition(){
      delete[] allWords;
      delete allWords;
 }
+
+bool SortingCompetition::lessThan(unsigned long int index1, unsigned long int index2){
+    if(lengthToSort[index1]<lengthToSort[index2])
+        return true;
+    else if(lengthToSort[index1]==lengthToSort[index2])
+        if(strcmp(wordsToSort[index1],wordsToSort[index2]<0))
+            return true;
+        else
+            return false;
+}
+
+void SortingCompetition::swap( unsigned long int index1, unsigned long int index2){
+    char * tempPtr=wordsToSort[index1];
+    wordsToSort[index1]=wordsToSort[index2];
+    wordsToSort[index2]=tempPtr;
+
+    int tempInt = lengthToSort[index1];
+    lengthToSort[index1]=lengthToSort[index2];
+    lengthToSort[index1]=tempInt;
+
+}
