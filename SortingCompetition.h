@@ -15,7 +15,7 @@ private:
     bool lessThan(unsigned long int, unsigned long int);
     bool lessThan(unsigned long int, unsigned long int, char**,int*);
     void swap(unsigned long int, unsigned long int);
-    void insertionSort(unsigned long int);
+    bool insertionSort();
 
 public:
     SortingCompetition(const std::string& inputFileName);

@@ -98,7 +98,8 @@ bool SortingCompetition::quickSort(int bottom, int top){
 }
 
 void SortingCompetition::sortData(){
-    quickSort(0, allWordsSize-1);
+    //quickSort(0, allWordsSize-1);
+    insertionSort();
 }
 
 
@@ -131,10 +132,7 @@ bool SortingCompetition::lessThan(unsigned long int index1, unsigned long int in
 }
 
 void SortingCompetition::swap( unsigned long int index1, unsigned long int index2){
-    if(index1==index2)
-        return;
-
-    cout << wordsToSort[index1]<<wordsToSort[index2];
+    //cout << wordsToSort[index1]<<wordsToSort[index2];
 
     char * tempPtr=wordsToSort[index1];
     wordsToSort[index1]=wordsToSort[index2];
@@ -144,20 +142,21 @@ void SortingCompetition::swap( unsigned long int index1, unsigned long int index
     lengthToSort[index1]=lengthToSort[index2];
     lengthToSort[index1]=tempInt;
 
-    cout << wordsToSort[index1]<<wordsToSort[index2] << "\n";
+    //cout << wordsToSort[index1]<<wordsToSort[index2] << "\n";
 
 }
 
-void SortingCompetition::insertionSort(unsigned long int size){
+bool SortingCompetition::insertionSort(){
 
-    int currentmax=0;
+    for(int j=allWordsSize; j>1; j--){
 
-    for(unsigned long int i=1; i<size; i++)
-        if(lessThan(currentmax,i))
-            currentmax=i;
+        unsigned long int currentmax=0;
 
-    swap(currentmax,size);
+        for(unsigned long int i=1; i<j; i++)
+            if(lessThan(currentmax,i))
+                currentmax=i;
+        swap(currentmax,j-1);
 
-    if(size>1)
-        insertionSort(size-1);
+    }
+    return true;
 }
