@@ -10,3 +10,14 @@ SOURCES += main.cpp \
 HEADERS += \
     SortingCompetition.h
 
+OTHER_FILES += \
+    testfiles/aliceinwonderland.txt \
+    testfiles/allfiles.txt \
+    testfiles/bible.txt \
+    testfiles/huckfinn.txt \
+    testfiles/modestproposal.txt \
+    testfiles/shakespeare.txt \
+    testfiles/siddhartha.txt \
+    testfiles/warandpeace.txt \
+    thingsToChange
+
