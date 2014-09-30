@@ -11,13 +11,14 @@ private:
     char** wordsToSort;
     int* lengthOfWords;
     int* lengthToSort;
-    int allWordsCapacity, allWordsSize;
+    unsigned long allWordsCapacity, allWordsSize;
 
 public:
     SortingCompetition(const std::string& inputFileName);
     void setFileName(const std::string& inputFileName);
     bool readData();
     bool prepareData();
+    void quickSort();
     void sortData();
     void outputData(const std::string& outputFileName);
     void resize();

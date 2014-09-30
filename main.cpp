@@ -9,11 +9,12 @@ int main()
 {
     chrono::time_point<chrono::system_clock> start, end;
 
-    SortingCompetition* sort = new SortingCompetition("modestproposal.txt");
+    SortingCompetition* sort = new SortingCompetition("allfiles.txt");
+
+    start=chrono::system_clock::now();
     sort->readData();
     sort->prepareData();
 
-    start=chrono::system_clock::now();
     sort->sortData();
     end=chrono::system_clock::now();
 
