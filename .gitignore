@@ -1,0 +1,5 @@
+Makefile*
+*.autosave
+*.out
+outfile*.txt
+*.exe
