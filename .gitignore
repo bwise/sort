@@ -1,0 +1,6 @@
+Makefile*
+*.autosave
+*.out
+outfile*.txt
+*.exe
+Proj3Sort.pro.user.*
