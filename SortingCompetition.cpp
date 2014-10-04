@@ -103,8 +103,8 @@ void SortingCompetition::quickSort( int left, int right){
     return;
 }
 void SortingCompetition::sortData(){
-    //quickSort(0, allWordsSize-1);
-    insertionSort();
+    quickSort(0, allWordsSize-1);
+    //insertionSort();
 }
 
 
@@ -134,28 +134,19 @@ bool SortingCompetition::lessThan(unsigned long int index1, unsigned long int in
 }
 
 void SortingCompetition::swap( unsigned long int index1, unsigned long int index2){
-<<<<<<< HEAD
     if(index1==index2||index1>=allWordsSize-1||index2>=allWordsSize-1)
         return;
-    char* tempPtr=wordsToSort[index1];
-=======
     //cout << wordsToSort[index1]<<wordsToSort[index2];
 
     char * tempPtr=wordsToSort[index1];
->>>>>>> b94c091b172052ad5730678f76d82778d0782a62
     wordsToSort[index1]=wordsToSort[index2];
     wordsToSort[index2]=tempPtr;
 
     int tempInt = lengthToSort[index1];
     lengthToSort[index1]=lengthToSort[index2];
-<<<<<<< HEAD
     lengthToSort[index2]=tempInt;
-=======
     lengthToSort[index1]=tempInt;
 
-    //cout << wordsToSort[index1]<<wordsToSort[index2] << "\n";
-
->>>>>>> b94c091b172052ad5730678f76d82778d0782a62
 }
 
 bool SortingCompetition::insertionSort(){
