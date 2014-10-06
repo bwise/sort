@@ -1,3 +1,4 @@
+// Written by Sam Coday and Ben Wise for SMU Data Structures (CSE2341)
 #ifndef SORTINGCOMPETITION_H
 #define SORTINGCOMPETITION_H
 

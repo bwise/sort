@@ -1,3 +1,5 @@
+// Written by Sam Coday and Ben Wise for SMU Data Structures (CSE2341)
+
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -68,7 +70,8 @@ bool SortingCompetition::prepareData(){
 void SortingCompetition::quickSort( int left, int right){
     if(left>right-1)
         return;
-     int i=left,j=right-1, count=0, pivotIndex=0;
+    int i=left,j=right-1, count=0, pivotIndex=0;
+
     if(lessThan(i,j)&&lessThan(((j/2)+i),i)){
         pivotIndex = i;
     }
@@ -78,10 +81,12 @@ void SortingCompetition::quickSort( int left, int right){
     else{
         pivotIndex = (((j-i)/2)+left);
     }
-    for(unsigned int k=left; k<right;k++){
+
+    for(int k=left; k<right;k++){
         if(lessThan(k,pivotIndex))
             count++;
         }
+
     swap(pivotIndex,(count+left));
     pivotIndex=count+left;
     while(i<=j){
@@ -105,9 +110,9 @@ void SortingCompetition::quickSort( int left, int right){
 
 
 void SortingCompetition::sortData(){
-    introSort(0, allWordsSize,1280);
+    //introSort(0, allWordsSize,30); //1280
 
-    //quickSort(0, allWordsSize-1);
+    quickSort(0, allWordsSize-1);
 
     //insertionSort(0, allWordsSize);
 }
@@ -145,6 +150,7 @@ bool SortingCompetition::lessThan(unsigned long int index1, unsigned long int in
 void SortingCompetition::swap( unsigned long int index1, unsigned long int index2){
     if(index1==index2||index1>=allWordsSize-1||index2>=allWordsSize-1)
         return;
+    //cout <<"s";
     //cout << wordsToSort[index1]<<wordsToSort[index2];
 
     char * tempPtr=wordsToSort[index1];
@@ -180,49 +186,41 @@ SortingCompetition::~SortingCompetition(){
 }
 
 void SortingCompetition::introSort(unsigned long int left, unsigned long int right, unsigned long int switchsize){
-
-    if(left>right-1)
+    //cout << "Here";
+    if(left>right-2)
         return;
 
-    int i=left,j=right-1, count=0, pivotIndex=0;
-    if(lessThan(i,j)&&lessThan(((j/2)+i),i)){
-        pivotIndex = i;
-    }
-    else if(lessThan(j,i)&&lessThan(((j/2)+i),j)){
-        pivotIndex = j;
-    }
-    else{
-        pivotIndex = (((j-i)/2)+left);
-    }
-    for(unsigned int k=left; k<right;k++){
-        if(lessThan(k,pivotIndex))
-            count++;
+    unsigned long int pivotIndex=left, tLeft=left+2, tRight=right-2, count=0;
+
+    while(tLeft<=tRight)
+    {
+        if(lessThan(pivotIndex,tLeft)&&lessThan(tRight, pivotIndex)){
+            //cout << wordsToSort[tLeft] <<wordsToSort[pivotIndex] << wordsToSort[tRight] << "\n";
+            swap(tLeft,tRight);
+            }
+        if(lessThan(tLeft,pivotIndex)){
+            count=tLeft;
+            tLeft++;
+        }
+        if(lessThan(pivotIndex,tRight))
+            tRight--;
+
+
     }
 
-    swap(pivotIndex,(count+left));
-    pivotIndex=count+left;
 
-    while(i<=j){
-        while(lessThan(i,pivotIndex)&&j>i){
-            i++;
-        }
-        while(!lessThan(j,pivotIndex)&&j>i){
-            j--;
-        }
-        if(i<=j){
-            swap(i,j);
-            i++;
-            j--;
-        }
-    }
+    swap(left,count);
+
+    cout << "a";
 
     if(right-left<=switchsize){
-        insertionSort(left,pivotIndex);
-        insertionSort(pivotIndex+1,right);
+        insertionSort(left,count-1);
+        insertionSort(count+1,right);
     }
     else{
-        introSort(left,pivotIndex, switchsize);
-        introSort(pivotIndex+1,right, switchsize);
+        introSort(left,count-1, switchsize);
+        introSort(count+1,right, switchsize);
     }
+    cout <<"r";
     return;
 }

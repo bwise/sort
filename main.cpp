@@ -1,3 +1,5 @@
+// Written by Sam Coday and Ben Wise for SMU Data Structures (CSE2341)
+
 #include <iostream>
 #include <chrono>
 #include <ctime>
@@ -9,9 +11,11 @@ int main()
 {
     chrono::time_point<chrono::system_clock> start, end;
 
-    SortingCompetition* sort = new SortingCompetition("warandpeace.txt");
+    SortingCompetition* sort = new SortingCompetition("modestproposal.txt");
     sort->readData();
     sort->prepareData();
+
+    cout<< "Sorting:\n";
 
     start=chrono::system_clock::now();
         sort->sortData();
