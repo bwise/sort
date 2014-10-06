@@ -104,13 +104,13 @@ void SortingCompetition::quickSort(int left, int right){
 
 
 void SortingCompetition::sortData(){
-    //introSort(0, allWordsSize,30); //1280
-    quickSort(0, allWordsSize-1);
+    introSort(0, allWordsSize-1,19); //1280
+    //quickSort(0, allWordsSize-1);
     //insertionSort(0, allWordsSize);
 }
 
 void SortingCompetition::sortData(int compare){
-    introSort(0,allWordsSize, compare);
+    introSort(0,allWordsSize-1, compare);
 }
 
 
@@ -178,37 +178,47 @@ SortingCompetition::~SortingCompetition(){
 }
 
 void SortingCompetition::introSort(unsigned long int left, unsigned long int right, unsigned long int switchsize){
-    if(left>right-2)
+
+    if(right-left<6){
+        insertionSort(left,right);
         return;
-
-    unsigned long int pivotIndex=left, tLeft=left+2, tRight=right-2, count=0;
-
-    while(tLeft<=tRight)
-    {
-        if(lessThan(pivotIndex,tLeft)&&lessThan(tRight, pivotIndex)){
-            //cout << wordsToSort[tLeft] <<wordsToSort[pivotIndex] << wordsToSort[tRight] << "\n";
-            swap(tLeft,tRight);
-            }
-        if(lessThan(tLeft,pivotIndex)){
-            count=tLeft;
-            tLeft++;
-        }
-        if(lessThan(pivotIndex,tRight))
-            tRight--;
     }
+    int center = (left+right)/2;
+    if(lessThan(center,left)){
+        swap(left,center);
+    }
+    if(lessThan(right,left)){
+        swap(left,right);
+    }
+    if(lessThan(right,center)){
+        swap(right,center);
+    }
+    swap(center, right-1);
+    long unsigned int pivot = right-1;
+    int i=left,j=right-1;
+    while(true){
+        while(lessThan(++i,pivot)){
+            ;
+        }
+        while(lessThan(pivot,--j)){
+            ;
+        }
+        if(i<j)
+            swap(i,j);
+        else
+            break;
+    }
+    swap(i,right-1);
 
-    swap(left,count);
-
-    cout << "a";
 
     if(right-left<=switchsize){
-        insertionSort(left,count-1);
-        insertionSort(count+1,right);
+        insertionSort(left,i-1);
+        insertionSort(i+1,right);
     }
     else{
-        introSort(left,count-1, switchsize);
-        introSort(count+1,right, switchsize);
+        introSort(left,i-1, switchsize);
+        introSort(i+1,right, switchsize);
     }
-    cout <<"r";
+    //cout <<"r";
     return;
 }

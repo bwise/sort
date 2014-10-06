@@ -18,7 +18,7 @@ int main()
     cout<< "Sorting:\n";
     for(int i=0; i<100; i++){
         start=chrono::system_clock::now();
-        sort->sortData();
+        sort->sortData(i);
         end=chrono::system_clock::now();
 
         sort->outputData("outfile1.txt");
@@ -26,7 +26,7 @@ int main()
         chrono::duration<double> elapsed_seconds = end-start;
         time_t end_time = chrono::system_clock::to_time_t(end);
 
-        cout << "Finished at " << ctime(&end_time) << "Elapsed time: " << elapsed_seconds.count() << " s\n";
+        cout << i<< "Finished at " << ctime(&end_time) << "Elapsed time: " << elapsed_seconds.count() << " s\n";
     }
     return 0;
 }
