@@ -65,42 +65,44 @@ bool SortingCompetition::prepareData(){
     return true;
 }
 
-void SortingCompetition::quickSort( int left, int right){
-    if(left>right-1)
+void SortingCompetition::quickSort(int left, int right){
+    if(left>=right-1)
         return;
-     int i=left,j=right-1, count=0, pivotIndex=0;
-    if(lessThan(i,j)&&lessThan(((j/2)+i),i)){
-        pivotIndex = i;
+     int center = ((left+right)/2);
+    if(lessThan(center,left)){
+        swap(left,center);
     }
-    else if(lessThan(j,i)&&lessThan(((j/2)+i),j)){
-        pivotIndex = j;
+    if(lessThan(right,left)){
+        swap(left,right);
     }
-    else{
-        pivotIndex = (((j-i)/2)+left);
+    if(lessThan(right,center)){
+        swap(center,right);
     }
-    for(unsigned int k=left; k<right;k++){
-        if(lessThan(k,pivotIndex))
-            count++;
-        }
-    swap(pivotIndex,(count+left));
-    pivotIndex=count+left;
-    while(i<=j){
-        while(lessThan(i,pivotIndex)&&j>i){
-            i++;
+    swap(center, right-1);
+    int size = strlen(wordsToSort[right-1])+1;
+    char* pivot= new char[size];
+    strcpy(pivot,wordsToSort[right-1]);
+    int i=left,j=right-1;
+    while(true){
+        while(lessThan(++i,pivot,size-1)){
+            cout<<size-1;
 
         }
-        while(!lessThan(j,pivotIndex)&&j>i){
-            j--;
+        while(lessThan(pivot,--j,size-1)){
+            ;
         }
-        if(i<=j){
+        if(i>=j){
+            break;
+
+            //i++;
+            //j--;
+        }
+        else
             swap(i,j);
-            i++;
-            j--;
-        }
     }
-    quickSort(left,pivotIndex);
-    quickSort(pivotIndex+1,right);
-    return;
+    swap(i,right-1);
+    quickSort(left,i-1);
+    quickSort(i+1,right);
 }
 void SortingCompetition::sortData(){
     quickSort(0, allWordsSize-1);
@@ -115,6 +117,41 @@ void SortingCompetition::outputData(const string &outputFileName){
     }
     fout.close();
 }
+
+bool SortingCompetition::lessThan(unsigned long int index1, char* index2,int size){
+    if(index1>allWordsSize-1||index1<0)
+        return false;
+    if(lengthToSort[index1]<size)
+        return true;
+    else{
+        if(lengthToSort[index1]==size){
+            if(strcmp(wordsToSort[index1],index2)<0)
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+}
+
+bool SortingCompetition::lessThan(char* index2,unsigned long int index1,int size){
+    if(index1>allWordsSize-1||index1<0)
+        return false;
+    if(lengthToSort[index1]<size)
+        return true;
+    else{
+        if(lengthToSort[index1]==size){
+            if(strcmp(wordsToSort[index1],index2)<0)
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+}
+
 
 bool SortingCompetition::lessThan(unsigned long int index1, unsigned long int index2){
     if(index1==index2||index1>allWordsSize-1||index2>allWordsSize-1)
