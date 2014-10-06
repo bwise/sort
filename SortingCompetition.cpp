@@ -67,53 +67,45 @@ bool SortingCompetition::prepareData(){
     return true;
 }
 
-void SortingCompetition::quickSort( int left, int right){
-    if(left>right-1)
+void SortingCompetition::quickSort(int left, int right){
+    if(right-left<6){
+        insertionSort(left,right);
         return;
-    int i=left,j=right-1, count=0, pivotIndex=0;
-
-    if(lessThan(i,j)&&lessThan(((j/2)+i),i)){
-        pivotIndex = i;
     }
-    else if(lessThan(j,i)&&lessThan(((j/2)+i),j)){
-        pivotIndex = j;
+    int center = (left+right)/2;
+    if(lessThan(center,left)){
+        swap(left,center);
     }
-    else{
-        pivotIndex = (((j-i)/2)+left);
+    if(lessThan(right,left)){
+        swap(left,right);
     }
-
-    for(int k=left; k<right;k++){
-        if(lessThan(k,pivotIndex))
-            count++;
+    if(lessThan(right,center)){
+        swap(right,center);
+    }
+    swap(center, right-1);
+    long unsigned int pivot = right-1;
+    int i=left,j=right-1;
+    while(true){
+        while(lessThan(++i,pivot)){
+            ;
         }
-
-    swap(pivotIndex,(count+left));
-    pivotIndex=count+left;
-    while(i<=j){
-        while(lessThan(i,pivotIndex)&&j>i){
-            i++;
-
+        while(lessThan(pivot,--j)){
+            ;
         }
-        while(!lessThan(j,pivotIndex)&&j>i){
-            j--;
-        }
-        if(i<=j){
+        if(i<j)
             swap(i,j);
-            i++;
-            j--;
-        }
+        else
+            break;
     }
-    quickSort(left,pivotIndex);
-    quickSort(pivotIndex+1,right);
-    return;
+    swap(i,right-1);
+    quickSort(left,i-1);
+    quickSort(i+1,right);
 }
 
 
 void SortingCompetition::sortData(){
     //introSort(0, allWordsSize,30); //1280
-
     quickSort(0, allWordsSize-1);
-
     //insertionSort(0, allWordsSize);
 }
 
@@ -164,29 +156,28 @@ void SortingCompetition::swap( unsigned long int index1, unsigned long int index
 }
 
 bool SortingCompetition::insertionSort(unsigned long int left, unsigned long int right){
-
-    for(unsigned long int j=right-left; j>left+1; j--){
-        unsigned long int currentmax=0;
-        for(unsigned long int i=1; i<j; i++)
+unsigned long int currentmax;
+    for(unsigned long int j=left; j<=right; j++){
+        currentmax=j;
+        for(unsigned long int i=j+1; i<=right; i++){
             if(lessThan(currentmax,i))
                 currentmax=i;
-        swap(currentmax,j-1);
-
+        }
+        swap(currentmax,j);
     }
     return true;
 }
 
 SortingCompetition::~SortingCompetition(){
-     delete[] allWords;
-     delete lengthOfWords;
+    delete[] allWords;
+    delete lengthOfWords;
     delete lengthToSort;
     delete[] wordsToSort;
     delete wordsToSort;
-     delete allWords;
+    delete allWords;
 }
 
 void SortingCompetition::introSort(unsigned long int left, unsigned long int right, unsigned long int switchsize){
-    //cout << "Here";
     if(left>right-2)
         return;
 
@@ -204,10 +195,7 @@ void SortingCompetition::introSort(unsigned long int left, unsigned long int rig
         }
         if(lessThan(pivotIndex,tRight))
             tRight--;
-
-
     }
-
 
     swap(left,count);
 

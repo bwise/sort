@@ -11,23 +11,23 @@ int main()
 {
     chrono::time_point<chrono::system_clock> start, end;
 
-    SortingCompetition* sort = new SortingCompetition("modestproposal.txt");
+    SortingCompetition* sort = new SortingCompetition("allfiles.txt");
     sort->readData();
     sort->prepareData();
 
     cout<< "Sorting:\n";
-
-    start=chrono::system_clock::now();
+    for(int i=0; i<100; i++){
+        start=chrono::system_clock::now();
         sort->sortData();
-    end=chrono::system_clock::now();
+        end=chrono::system_clock::now();
 
-    sort->outputData("outfile1.txt");
+        sort->outputData("outfile1.txt");
 
-    chrono::duration<double> elapsed_seconds = end-start;
-    time_t end_time = chrono::system_clock::to_time_t(end);
+        chrono::duration<double> elapsed_seconds = end-start;
+        time_t end_time = chrono::system_clock::to_time_t(end);
 
-    cout << "Finished at " << ctime(&end_time) << "Elapsed time: " << elapsed_seconds.count() << " s\n";
-
+        cout << "Finished at " << ctime(&end_time) << "Elapsed time: " << elapsed_seconds.count() << " s\n";
+    }
     return 0;
 }
 
