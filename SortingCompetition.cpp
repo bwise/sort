@@ -102,9 +102,12 @@ void SortingCompetition::quickSort( int left, int right){
     quickSort(pivotIndex+1,right);
     return;
 }
+
+
 void SortingCompetition::sortData(){
     quickSort(0, allWordsSize-1);
-    //insertionSort();
+
+    //insertionSort(0, allWordsSize);
 }
 
 
@@ -145,16 +148,13 @@ void SortingCompetition::swap( unsigned long int index1, unsigned long int index
     int tempInt = lengthToSort[index1];
     lengthToSort[index1]=lengthToSort[index2];
     lengthToSort[index2]=tempInt;
-    lengthToSort[index1]=tempInt;
 
 }
 
-bool SortingCompetition::insertionSort(){
+bool SortingCompetition::insertionSort(unsigned long int left, unsigned long int right){
 
-    for(int j=allWordsSize; j>1; j--){
-
+    for(unsigned long int j=right-left; j>left+1; j--){
         unsigned long int currentmax=0;
-
         for(unsigned long int i=1; i<j; i++)
             if(lessThan(currentmax,i))
                 currentmax=i;
@@ -173,3 +173,50 @@ SortingCompetition::~SortingCompetition(){
      delete allWords;
 }
 
+void SortingCompetition::introSort(unsigned long int left, unsigned long int right, unsigned long int switchsize){
+
+    if(left>right-1)
+        return;
+
+    int i=left,j=right-1, count=0, pivotIndex=0;
+    if(lessThan(i,j)&&lessThan(((j/2)+i),i)){
+        pivotIndex = i;
+    }
+    else if(lessThan(j,i)&&lessThan(((j/2)+i),j)){
+        pivotIndex = j;
+    }
+    else{
+        pivotIndex = (((j-i)/2)+left);
+    }
+    for(unsigned int k=left; k<right;k++){
+        if(lessThan(k,pivotIndex))
+            count++;
+    }
+
+    swap(pivotIndex,(count+left));
+    pivotIndex=count+left;
+
+    while(i<=j){
+        while(lessThan(i,pivotIndex)&&j>i){
+            i++;
+        }
+        while(!lessThan(j,pivotIndex)&&j>i){
+            j--;
+        }
+        if(i<=j){
+            swap(i,j);
+            i++;
+            j--;
+        }
+    }
+
+    if(right-left<=switchsize){
+        insertionSort(left,pivotIndex);
+        insertionSort(pivotIndex+1,right);
+    }
+    else{
+        introSort(left,pivotIndex, switchsize);
+        introSort(pivotIndex+1,right, switchsize);
+    }
+    return;
+}
