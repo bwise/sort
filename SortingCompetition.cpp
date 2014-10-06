@@ -105,9 +105,15 @@ void SortingCompetition::quickSort( int left, int right){
 
 
 void SortingCompetition::sortData(){
-    quickSort(0, allWordsSize-1);
+    introSort(0, allWordsSize,1280);
+
+    //quickSort(0, allWordsSize-1);
 
     //insertionSort(0, allWordsSize);
+}
+
+void SortingCompetition::sortData(int compare){
+    introSort(0,allWordsSize, compare);
 }
 
 

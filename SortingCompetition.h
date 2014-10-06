@@ -26,6 +26,7 @@ public:
     bool readData();
     bool prepareData();
     void sortData();
+    void sortData(int);
     void outputData(const std::string& outputFileName);
     void resize();
     ~SortingCompetition();
