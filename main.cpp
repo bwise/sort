@@ -1,3 +1,5 @@
+// Written by Sam Coday and Ben Wise for SMU Data Structures (CSE2341)
+
 #include <iostream>
 #include <chrono>
 #include <ctime>
@@ -9,21 +11,23 @@ int main()
 {
     chrono::time_point<chrono::system_clock> start, end;
 
-    SortingCompetition* sort = new SortingCompetition("modestproposal.txt");
-
-    start=chrono::system_clock::now();
+    SortingCompetition* sort = new SortingCompetition("allfiles.txt");
     sort->readData();
     sort->prepareData();
-    sort->sortData();
-    end=chrono::system_clock::now();
 
-    sort->outputData("outfile1.txt");
+    cout<< "Sorting:\n";
+    for(int i=0; i<100; i++){
+        start=chrono::system_clock::now();
+        sort->sortData();
+        end=chrono::system_clock::now();
 
-    chrono::duration<double> elapsed_seconds = end-start;
-    time_t end_time = chrono::system_clock::to_time_t(end);
+        sort->outputData("outfile1.txt");
 
-    cout << "Finished at " << ctime(&end_time) << "Elapsed time: " << elapsed_seconds.count() << " s\n";
+        chrono::duration<double> elapsed_seconds = end-start;
+        time_t end_time = chrono::system_clock::to_time_t(end);
 
+        cout << "Finished at " << ctime(&end_time) << "Elapsed time: " << elapsed_seconds.count() << " s\n";
+    }
     return 0;
 }
 

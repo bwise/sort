@@ -28,6 +28,6 @@ OTHER_FILES += \
     shakespeare.txt \
     siddhartha.txt \
     warandpeace.txt \
-    outfile1.txt \
-    test.txt
+    test.txt \
+    outfile1.txt
 

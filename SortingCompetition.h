@@ -1,3 +1,4 @@
+// Written by Sam Coday and Ben Wise for SMU Data Structures (CSE2341)
 #ifndef SORTINGCOMPETITION_H
 #define SORTINGCOMPETITION_H
 
@@ -13,12 +14,11 @@ private:
     int* lengthToSort;
     unsigned long allWordsCapacity, allWordsSize;
     bool lessThan(unsigned long int, unsigned long int);
-    bool lessThan(unsigned long int,char*,int);
-    bool lessThan(char*,unsigned long int,int);
     void swap(unsigned long int, unsigned long int);
     void insertionSort(unsigned long int);
-    void quickSort(int,int);
-    bool insertionSort();
+    void quickSort(int, int);
+    bool insertionSort(unsigned long, unsigned long);
+    void introSort(unsigned long int, unsigned long int,unsigned long int);
 
 public:
     SortingCompetition(const std::string& inputFileName);
@@ -26,6 +26,7 @@ public:
     bool readData();
     bool prepareData();
     void sortData();
+    void sortData(int);
     void outputData(const std::string& outputFileName);
     void resize();
     ~SortingCompetition();
