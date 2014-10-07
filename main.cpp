@@ -18,7 +18,7 @@ int main()
     cout<< "Sorting:\n";
     for(int i=0; i<100; i++){
         start=chrono::system_clock::now();
-        sort->sortData();
+        sort->sortDataThread();
         end=chrono::system_clock::now();
 
         sort->outputData("outfile1.txt");

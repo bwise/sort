@@ -17,6 +17,7 @@ private:
     void swap(unsigned long int, unsigned long int);
     void insertionSort(unsigned long int);
     void quickSort(int, int);
+    void quickSortThread(int, int);
     bool insertionSort(unsigned long, unsigned long);
     void introSort(unsigned long int, unsigned long int,unsigned long int);
 
@@ -26,6 +27,7 @@ public:
     bool readData();
     bool prepareData();
     void sortData();
+    void sortDataThread();
     void sortData(int);
     void outputData(const std::string& outputFileName);
     void resize();

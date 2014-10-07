@@ -5,14 +5,11 @@
 #include <string>
 #include <cstdlib>
 #include <cstring>
-#include <pthread.h>
+#include <omp.h>
 
 #include "SortingCompetition.h"
 
 using namespace std;
-
-#define NUM_THREADS     5
-
 
 SortingCompetition::SortingCompetition(const string &inputFileName)
 {
@@ -29,7 +26,7 @@ void SortingCompetition::setFileName(const string &inputFileName){
 
 bool SortingCompetition::readData(){
     ifstream fin(fileName, ios::in);
-    char buffer [8100] ={};
+    char buffer [81] ={};
     while(!fin.eof()){
         fin>>buffer;
         if(allWordsSize>=allWordsCapacity)
@@ -71,7 +68,7 @@ bool SortingCompetition::prepareData(){
     return true;
 }
 
-void SortingCompetition::quickSort(int left, int right){
+void SortingCompetition::quickSortThread(int left, int right){
     if(right-left<6){
         insertionSort(left,right);
         return;
@@ -107,15 +104,56 @@ void SortingCompetition::quickSort(int left, int right){
 }
 
 
-void SortingCompetition::sortData(){
-    /*pthread_t threads[NUM_THREADS];
-    for(int i=0; i<NUM_THREADS; i++)
-    {
+void SortingCompetition::quickSort(int left, int right){
+    if(right-left<6){
+        insertionSort(left,right);
+        return;
+    }
+    int center = (left+right)/2;
+    if(lessThan(center,left)){
+        swap(left,center);
+    }
+    if(lessThan(right,left)){
+        swap(left,right);
+    }
+    if(lessThan(right,center)){
+        swap(right,center);
+    }
+    swap(center, right-1);
+    long unsigned int pivot = right-1;
+    int i=left,j=right-1;
+    while(true){
+        while(lessThan(++i,pivot)){
+            ;
+        }
+        while(lessThan(pivot,--j)){
+            ;
+        }
+        if(i<j)
+            swap(i,j);
+        else
+            break;
+    }
+    swap(i,right-1);
+    quickSort(left,i-1);
+    quickSort(i+1,right);
+}
 
-    }*/
-    //introSort(0, allWordsSize,30); //1280
-    quickSort(0, allWordsSize-1);
-    //insertionSort(0, allWordsSize);
+void SortingCompetition::sortData(){
+    quickSort(0,allWordsSize-1);
+}
+
+void SortingCompetition::sortDataThread(){
+    #pragma omp parallel for
+    for(int i=0; i<4; i++)
+    {
+        quickSort((i/4)*allWordsSize, ((i+1)/4)*(allWordsSize)-1);
+    }
+    mergeSort();
+
+}
+void SortingCompetition::mergeSort(){
+
 }
 
 void SortingCompetition::sortData(int compare){

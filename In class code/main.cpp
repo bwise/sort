@@ -22,9 +22,11 @@ int main()
 
     ofstream foutVal;
     foutVal.open("outputVal.txt");
+    foutVal << "{";
 
     ofstream foutRef;
     foutRef.open("outputRef.txt");
+    foutRef << "{";
 
     for(int j=0; j<100; j++){
 
@@ -41,9 +43,9 @@ int main()
     end=chrono::system_clock::now();
 
     chrono::duration<double> elapsed_seconds = end-start;
-    time_t end_time = chrono::system_clock::to_time_t(end);
+    //time_t end_time = chrono::system_clock::to_time_t(end);
 
-    foutVal <<  elapsed_seconds.count() << "\n";
+    foutVal <<  elapsed_seconds.count() << ",";
 
     //By Ref
 
@@ -57,11 +59,17 @@ int main()
     end=chrono::system_clock::now();
 
     elapsed_seconds = end-start;
-    end_time = chrono::system_clock::to_time_t(end);
+    //end_time = chrono::system_clock::to_time_t(end);
 
-    foutRef<< elapsed_seconds.count() << "\n";
+    foutRef<< elapsed_seconds.count() << ",";
+    }
+    foutRef<<"}";
+    foutVal<<"}";
 
-   }
+    foutRef.close();
+    foutVal.close();
+
+
     return 0;
 }
 
