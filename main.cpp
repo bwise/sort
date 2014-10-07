@@ -11,7 +11,7 @@ int main()
 {
     chrono::time_point<chrono::system_clock> start, end;
 
-    SortingCompetition* sort = new SortingCompetition("allfiles.txt");
+    SortingCompetition* sort = new SortingCompetition("bible.txt");
     sort->readData();
     sort->prepareData();
 

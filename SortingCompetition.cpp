@@ -5,10 +5,14 @@
 #include <string>
 #include <cstdlib>
 #include <cstring>
+#include <pthread.h>
 
 #include "SortingCompetition.h"
 
 using namespace std;
+
+#define NUM_THREADS     5
+
 
 SortingCompetition::SortingCompetition(const string &inputFileName)
 {
@@ -104,6 +108,11 @@ void SortingCompetition::quickSort(int left, int right){
 
 
 void SortingCompetition::sortData(){
+    /*pthread_t threads[NUM_THREADS];
+    for(int i=0; i<NUM_THREADS; i++)
+    {
+
+    }*/
     //introSort(0, allWordsSize,30); //1280
     quickSort(0, allWordsSize-1);
     //insertionSort(0, allWordsSize);
