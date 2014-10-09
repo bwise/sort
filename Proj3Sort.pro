@@ -3,12 +3,15 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 CONFIG += c++11
+CONFIG += fopenamp
 
 SOURCES += main.cpp \
-    SortingCompetition.cpp
+    SortingCompetition.cpp \
+    testmulti.cpp
 
 HEADERS += \
-    SortingCompetition.h
+    SortingCompetition.h \
+    testmulti.h
 
 OTHER_FILES += \
     testfiles/aliceinwonderland.txt \
