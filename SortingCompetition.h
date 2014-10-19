@@ -10,6 +10,7 @@ private:
     std::string fileName;
     char** allWords;
     char** wordsToSort;
+    char** temp;
     char** wordsSorted;
     unsigned long int* lengthOfWords;
     unsigned long int* lengthToSort;
@@ -27,7 +28,6 @@ private:
     void merge();
     void sortDataThread();
     void introSort(unsigned long int,unsigned long int);
-
 
 public:
     SortingCompetition(const std::string& inputFileName);
