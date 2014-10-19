@@ -25,7 +25,7 @@ private:
     bool insertionSort(unsigned long int &, unsigned long int &);
     void introSort(unsigned long int, unsigned long int,unsigned long int);
     void mergeSort();
-    void merge();
+    void merge(unsigned long int);
     void sortDataThread();
     void introSort(unsigned long int,unsigned long int);
 

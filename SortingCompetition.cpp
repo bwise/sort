@@ -149,7 +149,6 @@ void SortingCompetition::sortData(){
 }
 
 void SortingCompetition::sortDataThread(){
-<<<<<<< HEAD
     unsigned long int N=1024;
     unsigned long int chunk=1;
     unsigned long int i=0;
@@ -163,34 +162,17 @@ void SortingCompetition::sortDataThread(){
         }
     }
 
-merge();
-=======
-int NUM_THREADS =4;
+merge(1);
 
-cout<<"here";
-#pragma omp parallel
-  {
-#pragma omp for nowait
-        for(int i=0; i<NUM_THREADS; i++)
-        {
-            quickSort(((i*allWordsSize)/NUM_THREADS), (((allWordsSize)/NUM_THREADS)*(i+1))-1);
-        }
-   }
-
-    temp = new char*[allWordsSize];
-
-    merge(NUM_THREADS);
-
->>>>>>> origin/master
 }
 
-void SortingCompetition::merge(int n){
+void SortingCompetition::merge(unsigned long n){
     if(n<=1){
         cout<<"end"<<endl;
         return;
     }
     cout<<n<<endl;
-    int a=0,b=0;
+    unsigned long int a=0,b=0;
     for(int k=0; k<n; k+=2)
     {
         a= (allWordsSize*(k))/n;
@@ -295,13 +277,9 @@ void SortingCompetition::outputData(const string &outputFileName){
 
 void SortingCompetition::outputDataThread(const string &outputFileName){
     ofstream fout(outputFileName, ios::out);
-<<<<<<< HEAD
     for( unsigned long int i=0; i< allWordsSize-1; i++){
         fout<<wordsSorted[i]<<"\n";
-=======
-    for(unsigned int i=0; i< allWordsSize-1; i++){
-        fout<<wordsToSort[i]<<"\n";
->>>>>>> origin/master
+
     }
     fout.close();
 }
