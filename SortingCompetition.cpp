@@ -67,52 +67,9 @@ bool SortingCompetition::prepareData(){
     return true;
 }
 
-void SortingCompetition::quickSortThread(int left, int right){
-    //cout<<right<<"\t"<<left<<endl;
-    if(right-left<6){
-        insertionSort(left,right);
-        return;
-    }
-    int center = (left+right)/2;
-    if(lessThan(center,left)){
-        swap(left,center);
-    }
-    if(lessThan(right,left)){
-        swap(left,right);
-    }
-    if(lessThan(right,center)){
-        swap(right,center);
-    }
-    swap(center, right-1);
-    long unsigned int pivot = right-1;
-    int i=left,j=right-1;
-    while(true){
-        while(lessThan(++i,pivot)){
-            ;
-        }
-        while(lessThan(pivot,--j)){
-            ;
-        }
-        if(i<j)
-            swap(i,j);
-        else
-            break;
-    }
-
-    swap(i,right-1);
-
-        quickSortThread(left,i-1);
-        quickSortThread(i+1,right);
-    }
-
-
-
-
 void SortingCompetition::quickSort(int left, int right){
-    if(right-left<6){
-        insertionSort(left,right);
-        return;
-    }
+    if((right-left)<2)
+      return;
     int center = (left+right)/2;
     if(lessThan(center,left)){
         swap(left,center);
@@ -124,7 +81,7 @@ void SortingCompetition::quickSort(int left, int right){
         swap(right,center);
     }
     swap(center, right-1);
-    long unsigned int pivot = right-1;
+    int pivot = right-1;
     int i=left,j=right-1;
     while(true){
         while(lessThan(++i,pivot)){
@@ -139,9 +96,10 @@ void SortingCompetition::quickSort(int left, int right){
             break;
     }
     swap(i,right-1);
-            quickSort(left,i-1);
-            quickSort(i+1,right);
+    quickSort(left,i-1);
+    quickSort(i+1,right);
 }
+
 
 void SortingCompetition::sortData(){
     quickSort(0,allWordsSize-1);
@@ -150,42 +108,79 @@ void SortingCompetition::sortData(){
 void SortingCompetition::sortDataThread(){
 #pragma omp parallel
     {
-    #pragma omp for nowait
-    for(int i=0; i<4; i++)
-    {
-        quickSortThread((i*(allWordsSize/4)), ((allWordsSize/4)*(i+1))-1);
+#pragma omp for nowait
+        for(int i=0; i<4; i++)
+        {
+            quickSort(((i*allWordsSize)/4), (((allWordsSize*(i+1))/4))-1);
+        }
     }
-}
     mergeSort();
 }
-void SortingCompetition::mergeSort(){
-    int a= 0, b= allWordsSize/4, c = allWordsSize/2, d= (3*(allWordsSize/4));
+
+void SortingCompetition::merge(){
+
+}
+
+/*void SortingCompetition::mergeSort(){
+    long unsigned int a= 0, bi= (allWordsSize/4), ci =((allWordsSize*2)/4), di= ((3*allWordsSize)/4);
+    long unsigned int b=bi,c=ci,d=di;
     wordsSorted = new char* [allWordsSize];
+    int count=0;
+    cout<<allWordsSize<<endl;
+
     for(int i=0; i<allWordsSize; i++)
     {
-        if(lessThanOrEqual(a,b)&&lessThanOrEqual(a,c)&&lessThanOrEqual(a,d) && (a<(allWordsSize/4))){
+        if(lessThanOrEqual(a,b)&&lessThanOrEqual(a,c)&&lessThanOrEqual(a,d)){
             wordsSorted[i] = new char [strlen(wordsToSort[a])+1];
             strcpy(wordsSorted[i], wordsToSort[a]);
+            count++;
             a++;
+            if(a>=bi){
+                //memset(wordsToSort[a],0,strlen(wordsToSort[a]));
+              wordsToSort[a]=NULL;
+            }
+
         }
-        else if(lessThanOrEqual(b,a)&&lessThanOrEqual(b,c)&&lessThanOrEqual(b,d)&&(b<((allWordsSize/2)))){
+        else if(lessThanOrEqual(b,a)&&lessThanOrEqual(b,c)&&lessThanOrEqual(b,d)){
             wordsSorted[i] = new char [strlen(wordsToSort[b])+1];
             strcpy(wordsSorted[i], wordsToSort[b]);
-            b++;
+            count++;
+              b++;
+            if(b>=ci){
+                //memset(wordsToSort[b],0,strlen(wordsToSort[b]));
+                wordsToSort[b]=NULL;
+            }
+
         }
-        else if(lessThanOrEqual(c,b)&&lessThanOrEqual(c,a)&&lessThanOrEqual(c,d)&&c<(3*(allWordsSize/4))){
+        else if(lessThanOrEqual(c,b)&&lessThanOrEqual(c,a)&&lessThanOrEqual(c,d)){
             wordsSorted[i] = new char [strlen(wordsToSort[c])+1];
             strcpy(wordsSorted[i], wordsToSort[c]);
+            count++;
+            if(c>=di){
+               // memset(wordsToSort[c],0,strlen(wordsToSort[c]));
+                wordsToSort[c]=NULL;
+            }
             c++;
+
         }
-        else if(lessThanOrEqual(d,b)&&lessThanOrEqual(d,c)&&lessThanOrEqual(d,a)&&(d<(allWordsSize-1))){
+        else if(lessThanOrEqual(d,b)&&lessThanOrEqual(d,c)&&lessThanOrEqual(d,a)){
             wordsSorted[i] = new char [strlen(wordsToSort[d])+1];
             strcpy(wordsSorted[i], wordsToSort[d]);
+            count++;
             d++;
+            if(d>=allWordsSize){
+                cout<<"beofre"<<d<<wordsToSort[d]<<endl;
+                //memset(wordsToSort[d],0,strlen(wordsToSort[d]));
+                wordsToSort[d]=NULL;
+                cout<<"after"<<endl;
+
+            }
+
+
         }
     }
 }
-
+*/
 void SortingCompetition::sortData(int compare){
     //introSort(0,allWordsSize, compare);
 }
@@ -207,7 +202,7 @@ void SortingCompetition::outputDataThread(const string &outputFileName){
     fout.close();
 }
 
-bool SortingCompetition::lessThan(unsigned long int index1, unsigned long int index2){
+bool SortingCompetition::lessThan(int &index1, int &index2){
     if(index1==index2||index1>allWordsSize-1||index2>allWordsSize-1)
         return false;
     if(lengthToSort[index1]<lengthToSort[index2])
@@ -224,24 +219,33 @@ bool SortingCompetition::lessThan(unsigned long int index1, unsigned long int in
     }
 }
 
-bool SortingCompetition::lessThanOrEqual(unsigned long int index1, unsigned long int index2){
-    if(index1==index2||index1>allWordsSize-1||index2>allWordsSize-1)
+bool SortingCompetition::lessThanOrEqual(unsigned long int& index1, unsigned long int& index2){
+    /*if(index1==index2||index1>allWordsSize-1||index2>allWordsSize-1||(wordsToSort[index1]==NULL&&wordsToSort[index2]!=NULL){
+        cout<<"what is going on"<<endl;
         return false;
-    if(lengthToSort[index1]<lengthToSort[index2]||strcmp(wordsToSort[index1],wordsToSort[index2])==0)
+    }*/
+    if(wordsToSort[index2]==NULL){
         return true;
-    else{
-        if(lengthToSort[index1]==lengthToSort[index2]){
-            if(strcmp(wordsToSort[index1],wordsToSort[index2])<0)
-                return true;
-            else
-                return false;
-        }
+    }
+    if(wordsToSort[index1]==NULL){
+        return false;
+    }
+    if(strlen(wordsToSort[index1])<strlen(wordsToSort[index2])){
+        return true;
+}
+    //cout<<index1<<"\t"<<index2<<endl;
+    //cout<<wordsToSort[index1]<<strlen(wordsToSort[index1])<<"\t"<<wordsToSort[index2]<<strlen(wordsToSort[index2])<<endl;
+    if(strlen(wordsToSort[index1])==strlen(wordsToSort[index2])){
+        if(strcmp(wordsToSort[index1],wordsToSort[index2])<=0)
+            return true;
         else
             return false;
     }
+    else
+        return false;
 }
 
-void SortingCompetition::swap( unsigned long int index1, unsigned long int index2){
+void SortingCompetition::swap(int& index1, int index2){
     if(index1==index2||index1>=allWordsSize-1||index2>=allWordsSize-1)
         return;
     //cout <<"s";
@@ -257,11 +261,11 @@ void SortingCompetition::swap( unsigned long int index1, unsigned long int index
 
 }
 
-bool SortingCompetition::insertionSort(unsigned long int left, unsigned long int right){
-unsigned long int currentmax;
-    for(unsigned long int j=left; j<=right; j++){
+bool SortingCompetition::insertionSort(int& left, int& right){
+ int currentmax;
+    for(int j=left; j<right; j++){
         currentmax=j;
-        for(unsigned long int i=j+1; i<=right; i++){
+        for(int i=j+1; i<right; i++){
             if(lessThan(currentmax,i))
                 currentmax=i;
         }
@@ -277,6 +281,8 @@ SortingCompetition::~SortingCompetition(){
     delete[] wordsToSort;
     delete wordsToSort;
     delete allWords;
+    delete [] wordsSorted;
+    delete wordsSorted;
 }
 
 /*void SortingCompetition::introSort(unsigned long int left, unsigned long int right, unsigned long int switchsize){

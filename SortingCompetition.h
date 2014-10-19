@@ -14,14 +14,14 @@ private:
     int* lengthOfWords;
     int* lengthToSort;
     unsigned long allWordsCapacity, allWordsSize;
-    bool lessThan(unsigned long int, unsigned long int);
+    bool lessThan(int&,int&);
 
-    bool lessThanOrEqual(unsigned long int, unsigned long int);
-    void swap(unsigned long int, unsigned long int);
+    bool lessThanOrEqual(long unsigned int&, long unsigned int&);
+    void swap(int &, int);
     void insertionSort(unsigned long int);
     void quickSort(int, int);
-    void quickSortThread(int, int);
-    bool insertionSort(unsigned long, unsigned long);
+    void quickSortThread(int , int );
+    bool insertionSort(int &, int &);
     void introSort(unsigned long int, unsigned long int,unsigned long int);
     void mergeSort();
 

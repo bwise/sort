@@ -18,7 +18,7 @@ int main()
     sort->prepareData();
 //EMPTY BEFORE FILE STAGE
     cout<< "Sorting:\n";
-    for(int i=0; i<30; i++){
+    //for(int i=0; i<50; i++){
     //testMulti* tm = new testMulti();
     start=chrono::system_clock::now();
 
@@ -27,30 +27,39 @@ int main()
 
         sort->outputDataThread("outfile1.txt");
 
-        elapsed_seconds += end-start;
+        elapsed_seconds = end-start;
         //time_t end_time = chrono::system_clock::to_time_t(end);
 
         //cout << "Finished at " << ctime(&end_time) <<
                 //cout<<"Elapsed time Threaded: " << elapsed_seconds.count() << " s\n";
-}
-    cout<<"Elapsed time Threaded: " << elapsed_seconds.count()/30 << " s\n";
+//}
+      cout<<"Elapsed time Threaded: " << elapsed_seconds.count() << " s\n";
+    SortingCompetition* sort2 = new SortingCompetition("allfiles.txt");
+    cout<<"Preparing Data..."<<endl;
+    sort2->readData();
+    sort2->prepareData();
+//EMPTY BEFORE FILE STAGE
+    cout<< "Sorting:\n";
 
-    for(int i=0; i<30; i++){
+
+    chrono::time_point<chrono::system_clock> start1, end1;
+   chrono::duration<double> elapsed_seconds1;
+  //for(int i=0; i<50; i++){
     //testMulti* tm = new testMulti();
-    start=chrono::system_clock::now();
+  start1=chrono::system_clock::now();
 
-        sort->sortData();
-        end=chrono::system_clock::now();
+        sort2->sortData();
+        end1=chrono::system_clock::now();
 
-        sort->outputData("outfile1.txt");
+        sort2->outputData("outfile2.txt");
 
-        elapsed_seconds += end-start;
+        elapsed_seconds1 = end1-start1;
         //time_t end_time = chrono::system_clock::to_time_t(end);
 
         //cout << "Finished at " << ctime(&end_time) <<
                 //cout<<"Elapsed time Threaded: " << elapsed_seconds.count() << " s\n";
-}
-    cout<<"Elapsed time: " << elapsed_seconds.count()/30 << " s\n";
+//}
+    cout<<"Elapsed time: " << elapsed_seconds1.count() << " s\n";
 
     return 0;
 }

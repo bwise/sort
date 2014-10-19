@@ -6,12 +6,10 @@ CONFIG += c++11
 CONFIG += fopenamp
 
 SOURCES += main.cpp \
-    SortingCompetition.cpp \
-    testmulti.cpp
+    SortingCompetition.cpp
 
 HEADERS += \
-    SortingCompetition.h \
-    testmulti.h
+    SortingCompetition.h
 
 OTHER_FILES += \
     testfiles/aliceinwonderland.txt \
