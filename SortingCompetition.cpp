@@ -106,19 +106,58 @@ void SortingCompetition::sortData(){
 }
 
 void SortingCompetition::sortDataThread(){
+int NUM_THREADS =4;
+
+cout<<"here";
 #pragma omp parallel
-    {
+  {
 #pragma omp for nowait
-        for(int i=0; i<4; i++)
+        for(int i=0; i<NUM_THREADS; i++)
         {
-            quickSort(((i*allWordsSize)/4), (((allWordsSize*(i+1))/4))-1);
+            quickSort(((i*allWordsSize)/NUM_THREADS), (((allWordsSize)/NUM_THREADS)*(i+1))-1);
         }
-    }
-    mergeSort();
+   }
+
+    temp = new char*[allWordsSize];
+
+    merge(NUM_THREADS);
+
 }
 
-void SortingCompetition::merge(){
+void SortingCompetition::merge(int n){
+    if(n<=1){
+        cout<<"end"<<endl;
+        return;
+    }
+    cout<<n<<endl;
+    int a=0,b=0;
+    for(int k=0; k<n; k+=2)
+    {
+        a= (allWordsSize*(k))/n;
+        b= (allWordsSize*(k+1))/n;
 
+        for(int i=(allWordsSize*k)/n; i<((k+2)*allWordsSize)/n; i++){
+        if(lessThan(a,b)&&a<(allWordsSize*(k+1))/n){
+            temp[i] = wordsToSort[a];
+            a++;
+        }
+        else if(lessThan(b,a)&&b<((allWordsSize*(k+2))/n)-1){
+            temp[i] = wordsToSort[b];
+            b++;
+        }
+        cout<<wordsToSort[a]<<"\t"<<wordsToSort[b]<<"\t"<<((k+2)*allWordsSize)/n<<endl;
+      }
+        cout<<"here"<<endl;
+    }
+
+    for(unsigned int i =0; i< allWordsSize; i++){
+        delete wordsToSort[i];
+        wordsToSort[i]=temp[i];
+        temp[i]=NULL;
+
+    }
+
+    merge(n/2);
 }
 
 /*void SortingCompetition::mergeSort(){
@@ -197,7 +236,7 @@ void SortingCompetition::outputData(const string &outputFileName){
 void SortingCompetition::outputDataThread(const string &outputFileName){
     ofstream fout(outputFileName, ios::out);
     for(unsigned int i=0; i< allWordsSize-1; i++){
-        fout<<wordsSorted[i]<<"\n";
+        fout<<wordsToSort[i]<<"\n";
     }
     fout.close();
 }
@@ -205,10 +244,10 @@ void SortingCompetition::outputDataThread(const string &outputFileName){
 bool SortingCompetition::lessThan(int &index1, int &index2){
     if(index1==index2||index1>allWordsSize-1||index2>allWordsSize-1)
         return false;
-    if(lengthToSort[index1]<lengthToSort[index2])
+    if(strlen(wordsToSort[index1])<strlen(wordsToSort[index2]))
         return true;
     else{
-        if(lengthToSort[index1]==lengthToSort[index2]){
+        if(strlen(wordsToSort[index1])==strlen(wordsToSort[index2])){
             if(strcmp(wordsToSort[index1],wordsToSort[index2])<0)
                 return true;
             else
@@ -283,6 +322,8 @@ SortingCompetition::~SortingCompetition(){
     delete allWords;
     delete [] wordsSorted;
     delete wordsSorted;
+    delete [] temp;
+    delete temp;
 }
 
 /*void SortingCompetition::introSort(unsigned long int left, unsigned long int right, unsigned long int switchsize){

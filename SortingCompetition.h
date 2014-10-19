@@ -10,6 +10,7 @@ private:
     std::string fileName;
     char** allWords;
     char** wordsToSort;
+    char** temp;
     char** wordsSorted;
     int* lengthOfWords;
     int* lengthToSort;
@@ -24,7 +25,7 @@ private:
     bool insertionSort(int &, int &);
     void introSort(unsigned long int, unsigned long int,unsigned long int);
     void mergeSort();
-
+    void merge(int);
 public:
     SortingCompetition(const std::string& inputFileName);
     void setFileName(const std::string& inputFileName);

@@ -11,7 +11,7 @@ int main()
 {
     chrono::time_point<chrono::system_clock> start, end;
 
-    SortingCompetition* sort = new SortingCompetition("allfiles.txt");
+    SortingCompetition* sort = new SortingCompetition("siddhartha.txt");
     chrono::duration<double> elapsed_seconds;
     cout<<"Preparing Data..."<<endl;
     sort->readData();
@@ -19,13 +19,12 @@ int main()
 //EMPTY BEFORE FILE STAGE
     cout<< "Sorting:\n";
     //for(int i=0; i<50; i++){
-    //testMulti* tm = new testMulti();
     start=chrono::system_clock::now();
 
         sort->sortDataThread();
         end=chrono::system_clock::now();
 
-        sort->outputDataThread("outfile1.txt");
+        sort->outputDataThread("output1.txt");
 
         elapsed_seconds = end-start;
         //time_t end_time = chrono::system_clock::to_time_t(end);
@@ -34,7 +33,7 @@ int main()
                 //cout<<"Elapsed time Threaded: " << elapsed_seconds.count() << " s\n";
 //}
       cout<<"Elapsed time Threaded: " << elapsed_seconds.count() << " s\n";
-    SortingCompetition* sort2 = new SortingCompetition("allfiles.txt");
+   /* SortingCompetition* sort2 = new SortingCompetition("allfiles.txt");
     cout<<"Preparing Data..."<<endl;
     sort2->readData();
     sort2->prepareData();
@@ -60,7 +59,7 @@ int main()
                 //cout<<"Elapsed time Threaded: " << elapsed_seconds.count() << " s\n";
 //}
     cout<<"Elapsed time: " << elapsed_seconds1.count() << " s\n";
-
+*/
     return 0;
 }
 
