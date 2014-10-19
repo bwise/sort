@@ -16,10 +16,13 @@ int main()
     cout<<"Preparing Data..."<<endl;
     sort->readData();
     sort->prepareData();
+    /*
 //EMPTY BEFORE FILE STAGE
     cout<< "Sorting:\n";
     //for(int i=0; i<50; i++){
     //testMulti* tm = new testMulti();
+
+
     start=chrono::system_clock::now();
 
         sort->sortDataThread();
@@ -39,6 +42,8 @@ int main()
     sort2->readData();
     sort2->prepareData();
 //EMPTY BEFORE FILE STAGE
+
+*/
     cout<< "Sorting:\n";
 
 
@@ -46,12 +51,12 @@ int main()
    chrono::duration<double> elapsed_seconds1;
   //for(int i=0; i<50; i++){
     //testMulti* tm = new testMulti();
-  start1=chrono::system_clock::now();
+    start1=chrono::system_clock::now();
 
-        sort2->sortData();
+        sort->sortData();
         end1=chrono::system_clock::now();
 
-        sort2->outputData("outfile2.txt");
+        sort->outputData("outfile.txt");
 
         elapsed_seconds1 = end1-start1;
         //time_t end_time = chrono::system_clock::to_time_t(end);

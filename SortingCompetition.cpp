@@ -17,7 +17,7 @@ SortingCompetition::SortingCompetition(const string &inputFileName)
     allWordsCapacity=100000;
     allWordsSize=0;
     allWords = new char* [allWordsCapacity];
-    lengthOfWords = new int[allWordsCapacity];
+    lengthOfWords = new unsigned long int[allWordsCapacity];
 }
 
 void SortingCompetition::setFileName(const string &inputFileName){
@@ -42,8 +42,8 @@ bool SortingCompetition::readData(){
 
 void SortingCompetition::resize(){
     char** temp = new char*[allWordsCapacity+100000];
-    int* tempLen = new int[allWordsCapacity+100000];
-    for(unsigned int i=0; i<allWordsCapacity; i++){
+    unsigned long int* tempLen = new unsigned long int[allWordsCapacity+100000];
+    for( unsigned long int i=0; i<allWordsCapacity; i++){
         temp[i] = allWords[i];
         tempLen[i] = lengthOfWords[i];
     }
@@ -56,21 +56,21 @@ void SortingCompetition::resize(){
 
 bool SortingCompetition::prepareData(){
     wordsToSort = new char* [allWordsSize];
-    for(unsigned int i =0; i< allWordsSize-1; i++){
+    for( unsigned long int i =0; i< allWordsSize-1; i++){
         wordsToSort[i] = new char [strlen(allWords[i])+1];
         strcpy(wordsToSort[i], allWords[i]);
     }
-    lengthToSort = new int[allWordsSize];
-    for(unsigned int i =0; i< allWordsSize-1; i++){
+    lengthToSort = new unsigned long int[allWordsSize];
+    for( unsigned long int i =0; i< allWordsSize-1; i++){
         lengthToSort[i] = lengthOfWords[i];
     }
     return true;
 }
 
-void SortingCompetition::quickSort(int left, int right){
+void SortingCompetition::quickSort(unsigned long int left, unsigned long int right){
     if((right-left)<2)
       return;
-    int center = (left+right)/2;
+    unsigned long int center = (left+right)/2;
     if(lessThan(center,left)){
         swap(left,center);
     }
@@ -81,8 +81,41 @@ void SortingCompetition::quickSort(int left, int right){
         swap(right,center);
     }
     swap(center, right-1);
-    int pivot = right-1;
-    int i=left,j=right-1;
+    unsigned long int pivot = right-1;
+    unsigned long int i=left,j=right-1;
+    while(true){
+        while(lessThan(++i,pivot)){
+            ;
+        }
+        while(lessThan(pivot,--j)){
+            ;
+        }
+        if(i<j)
+            swap(i,j);
+        else
+            break;
+    }
+    swap(i,right-1);
+    quickSort(left,i-1);
+    quickSort(i+1,right);
+}
+
+void SortingCompetition::introSort(unsigned long int left, unsigned long int right){ //here
+    if((right-left)<2)
+      return;
+    unsigned long int center = (left+right)/2;
+    if(lessThan(center,left)){
+        swap(left,center);
+    }
+    if(lessThan(right,left)){
+        swap(left,right);
+    }
+    if(lessThan(right,center)){
+        swap(right,center);
+    }
+    swap(center, right-1);
+    unsigned long int pivot = right-1;
+    unsigned long int i=left,j=right-1;
     while(true){
         while(lessThan(++i,pivot)){
             ;
@@ -102,19 +135,24 @@ void SortingCompetition::quickSort(int left, int right){
 
 
 void SortingCompetition::sortData(){
-    quickSort(0,allWordsSize-1);
+    this->sortDataThread();
 }
 
 void SortingCompetition::sortDataThread(){
-#pragma omp parallel
+    unsigned long int N=1024;
+    unsigned long int chunk=1;
+    unsigned long int i=0;
+
+#pragma omp parallel private(i)
     {
-#pragma omp for nowait
-        for(int i=0; i<4; i++)
+#pragma omp for schedule(static,chunk) nowait
+        for(i=0; i<N; i++)
         {
-            quickSort(((i*allWordsSize)/4), (((allWordsSize*(i+1))/4))-1);
+            quickSort(((i*allWordsSize)/N), (((allWordsSize*(i+1))/N))-1);
         }
     }
-    mergeSort();
+
+merge();
 }
 
 void SortingCompetition::merge(){
@@ -181,14 +219,14 @@ void SortingCompetition::merge(){
     }
 }
 */
-void SortingCompetition::sortData(int compare){
+void SortingCompetition::sortData(unsigned long int compare){
     //introSort(0,allWordsSize, compare);
 }
 
 
 void SortingCompetition::outputData(const string &outputFileName){
     ofstream fout(outputFileName, ios::out);
-    for(unsigned int i=0; i< allWordsSize-1; i++){
+    for( unsigned long int i=0; i< allWordsSize-1; i++){
         fout<<wordsToSort[i]<<"\n";
     }
     fout.close();
@@ -196,13 +234,13 @@ void SortingCompetition::outputData(const string &outputFileName){
 
 void SortingCompetition::outputDataThread(const string &outputFileName){
     ofstream fout(outputFileName, ios::out);
-    for(unsigned int i=0; i< allWordsSize-1; i++){
+    for( unsigned long int i=0; i< allWordsSize-1; i++){
         fout<<wordsSorted[i]<<"\n";
     }
     fout.close();
 }
 
-bool SortingCompetition::lessThan(int &index1, int &index2){
+bool SortingCompetition::lessThan(unsigned long int &index1, unsigned long int &index2){
     if(index1==index2||index1>allWordsSize-1||index2>allWordsSize-1)
         return false;
     if(lengthToSort[index1]<lengthToSort[index2])
@@ -245,7 +283,7 @@ bool SortingCompetition::lessThanOrEqual(unsigned long int& index1, unsigned lon
         return false;
 }
 
-void SortingCompetition::swap(int& index1, int index2){
+void SortingCompetition::swap(unsigned long int& index1, unsigned long int index2){
     if(index1==index2||index1>=allWordsSize-1||index2>=allWordsSize-1)
         return;
     //cout <<"s";
@@ -255,17 +293,17 @@ void SortingCompetition::swap(int& index1, int index2){
     wordsToSort[index1]=wordsToSort[index2];
     wordsToSort[index2]=tempPtr;
 
-    int tempInt = lengthToSort[index1];
+    unsigned long int tempInt = lengthToSort[index1];
     lengthToSort[index1]=lengthToSort[index2];
     lengthToSort[index2]=tempInt;
 
 }
 
-bool SortingCompetition::insertionSort(int& left, int& right){
- int currentmax;
-    for(int j=left; j<right; j++){
+bool SortingCompetition::insertionSort(unsigned long int& left, unsigned long int& right){
+ unsigned long int currentmax;
+    for(unsigned long int j=left; j<right; j++){
         currentmax=j;
-        for(int i=j+1; i<right; i++){
+        for(unsigned long int i=j+1; i<right; i++){
             if(lessThan(currentmax,i))
                 currentmax=i;
         }

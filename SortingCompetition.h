@@ -11,19 +11,23 @@ private:
     char** allWords;
     char** wordsToSort;
     char** wordsSorted;
-    int* lengthOfWords;
-    int* lengthToSort;
+    unsigned long int* lengthOfWords;
+    unsigned long int* lengthToSort;
     unsigned long allWordsCapacity, allWordsSize;
-    bool lessThan(int&,int&);
+    bool lessThan(unsigned long int&,unsigned long int&);
 
     bool lessThanOrEqual(long unsigned int&, long unsigned int&);
-    void swap(int &, int);
+    void swap(unsigned long int &, unsigned long int);
     void insertionSort(unsigned long int);
-    void quickSort(int, int);
-    void quickSortThread(int , int );
-    bool insertionSort(int &, int &);
+    void quickSort(unsigned long int, unsigned long int);
+    void quickSortThread(unsigned long int , unsigned long int );
+    bool insertionSort(unsigned long int &, unsigned long int &);
     void introSort(unsigned long int, unsigned long int,unsigned long int);
     void mergeSort();
+    void merge();
+    void sortDataThread();
+    void introSort(unsigned long int,unsigned long int);
+
 
 public:
     SortingCompetition(const std::string& inputFileName);
@@ -31,8 +35,7 @@ public:
     bool readData();
     bool prepareData();
     void sortData();
-    void sortDataThread();
-    void sortData(int);
+    void sortData(unsigned long int);
 
     void outputDataThread(const std::string& outputFileName);
     void outputData(const std::string& outputFileName);
