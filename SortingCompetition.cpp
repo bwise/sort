@@ -100,7 +100,8 @@ void SortingCompetition::quickSort(unsigned long int left, unsigned long int rig
     quickSort(i+1,right);
 }
 
-void SortingCompetition::introSort(unsigned long int left, unsigned long int right){ //here
+void SortingCompetition::introSort(unsigned long int left, unsigned long int right){
+    unsigned long int switchsize=23;
     if((right-left)<2)
       return;
     unsigned long int center = (left+right)/2;
@@ -129,8 +130,17 @@ void SortingCompetition::introSort(unsigned long int left, unsigned long int rig
             break;
     }
     swap(i,right-1);
-    quickSort(left,i-1);
-    quickSort(i+1,right);
+
+    if(right-left<=switchsize){
+        unsigned long int temp=i-1;
+        insertionSort(left,temp);
+        temp=i+1;
+        insertionSort(temp,right);
+    }
+    else{
+        quickSort(left,i-1);
+        quickSort(i+1,right);
+        }
 }
 
 
