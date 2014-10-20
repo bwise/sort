@@ -99,31 +99,25 @@ void SortingCompetition::quickSort(long unsigned int left, long unsigned int rig
 }
 
 void SortingCompetition::sortData(){
-    int NUM_THREADS =omp_get_max_threads(), i;
-    omp_set_num_threads(omp_get_max_threads());
-#pragma omp default(share) schedule (dynamic, 10) shared(NUM_THREADS, allWordsSize, wordsToSort) private(i)
+    int NUM_THREADS =16, i;
+    omp_set_num_threads(16);
+#pragma omp default(share) schedule (dynamic) shared(NUM_THREADS, allWordsSize, wordsToSort) private(i)
 {
 #pragma omp parallel for
         for(i=0; i<NUM_THREADS; i++){
             quickSort(((i*allWordsSize)/NUM_THREADS), (((allWordsSize*(i+1))/NUM_THREADS))-1);
         }
 }
-
     temp = new char*[allWordsSize];
     merge(NUM_THREADS);
-}
-
-void SortingCompetition::sortData1(){
-    quickSort(0,allWordsSize-1);
 }
 
 void SortingCompetition::merge(unsigned long n){
     if(n<=1)
         return;
     unsigned long int a=0,b=0, k, tempPos;
-#pragma omp critical
-    {
-    #pragma omp for
+
+   // #pragma omp parallel for schedule(dynamic)
     for(k=0; k<n; k+=2)
     {
         a= (allWordsSize*(k))/n;
@@ -139,7 +133,6 @@ void SortingCompetition::merge(unsigned long n){
             temp[tempPos++]=wordsToSort[a++];
         while(b<(allWordsSize*(k+2))/n)
             temp[tempPos++]=wordsToSort[b++];
-    }
     }
     wordsToSort = temp;
     merge(n/2);
