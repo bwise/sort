@@ -18,12 +18,14 @@ private:
     bool insertionSort(long unsigned int &,long unsigned int &);
     void merge(long unsigned int);
     void quickSort(unsigned long int, unsigned long int);
+
 public:
     SortingCompetition(const std::string& inputFileName);
     void setFileName(const std::string& inputFileName);
     bool readData();
     bool prepareData();
     void sortData();
+    void sortData1();
     void outputData(const std::string& outputFileName);
     ~SortingCompetition();
 };

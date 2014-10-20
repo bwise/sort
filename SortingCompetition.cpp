@@ -6,47 +6,53 @@
 #include <cstdlib>
 #include <cstring>
 #include <omp.h>
+#include <thread>
 #include "SortingCompetition.h"
 
 using namespace std;
 
+//constructor-initializes file name, and allWords Array
 SortingCompetition::SortingCompetition(const string &inputFileName)
 {
     fileName = inputFileName;
-    allWordsCapacity=100000;
+    allWordsCapacity=100000;//sets intital array size to 100000
     allWordsSize=0;
     allWords = new char* [allWordsCapacity];
 }
 
+//setter to change fileName
 void SortingCompetition::setFileName(const string &inputFileName){
     fileName = inputFileName;
 }
 
+//reads in all of the words from the file
 bool SortingCompetition::readData(){
-    ifstream fin(fileName, ios::in);
+    ifstream fin(fileName, ios::in);//opens file
     char buffer [8100] ={};
-    while(!fin.eof()){
+    while(!fin.eof()){//continues while not at end of file
         fin>>buffer;
         if(allWordsSize>=allWordsCapacity)
-            resize();
+            resize();//resizes if capacity is too small
         allWords[allWordsSize] = new char [strlen(buffer)+1];
         strcpy(allWords[allWordsSize],buffer);
         allWordsSize++;
     }
-    fin.close();
+    fin.close();//closes input file
     return true;
 }
 
+//resizes allWords Array(increases by 100000 each call)
 void SortingCompetition::resize(){
     char** temp = new char*[allWordsCapacity+100000];
     for( unsigned long int i=0; i<allWordsCapacity; i++){
         temp[i] = allWords[i];
     }
-    delete [] allWords;
+    delete [] allWords;//deletes old array
     allWords=temp;
-    allWordsCapacity+=100000;
+    allWordsCapacity+=100000;//increases capacity(PBR)
 }
 
+//copies all data from readIn array to wordsToSort
 bool SortingCompetition::prepareData(){
     wordsToSort = new char* [allWordsSize];
     for( unsigned long int i =0; i< allWordsSize-1; i++){
@@ -56,6 +62,7 @@ bool SortingCompetition::prepareData(){
     return true;
 }
 
+//Quicksort that switches to insertion Sort
 void SortingCompetition::quickSort(long unsigned int left, long unsigned int right){
     if((right-left)<6){
         insertionSort(left,right);
@@ -92,48 +99,49 @@ void SortingCompetition::quickSort(long unsigned int left, long unsigned int rig
 }
 
 void SortingCompetition::sortData(){
-    int NUM_THREADS =8;
-
-#pragma omp parallel
-    {
-#pragma omp for schedule(dynamic) nowait
-        for(int i=0; i<NUM_THREADS; i++){
+    int NUM_THREADS =omp_get_max_threads(), i;
+    omp_set_num_threads(omp_get_max_threads());
+#pragma omp default(share) schedule (dynamic, 10) shared(NUM_THREADS, allWordsSize, wordsToSort) private(i)
+{
+#pragma omp parallel for
+        for(i=0; i<NUM_THREADS; i++){
             quickSort(((i*allWordsSize)/NUM_THREADS), (((allWordsSize*(i+1))/NUM_THREADS))-1);
         }
-    }
+}
 
     temp = new char*[allWordsSize];
     merge(NUM_THREADS);
+}
+
+void SortingCompetition::sortData1(){
     quickSort(0,allWordsSize-1);
 }
 
 void SortingCompetition::merge(unsigned long n){
     if(n<=1)
         return;
-    unsigned long int a=0,b=0;
-#pragma omp parallel
+    unsigned long int a=0,b=0, k, tempPos;
+#pragma omp critical
     {
-#pragma omp for schedule(dynamic) nowait
-        for(int k=0; k<n; k+=2)
-        {
-            a= (allWordsSize*(k))/n;
-            b= (allWordsSize*(k+1))/n;
-            int tempPos=a;
-            while(a<(allWordsSize*(k+1))/n&& b<(((k+2)*allWordsSize)/n)){
-                if(lessThan(a,b))
-                    temp[tempPos++]=wordsToSort[a++];
-                else
-                    temp[tempPos++]= wordsToSort[b++];
-            }
-            while(a<(allWordsSize*(k+1))/n)
+    #pragma omp for
+    for(k=0; k<n; k+=2)
+    {
+        a= (allWordsSize*(k))/n;
+        b= (allWordsSize*(k+1))/n;
+        tempPos=a;
+        while(a<(allWordsSize*(k+1))/n&& b<(((k+2)*allWordsSize)/n)){
+            if(lessThan(a,b))
                 temp[tempPos++]=wordsToSort[a++];
-            while(b<(allWordsSize*(k+2))/n)
-                temp[tempPos++]=wordsToSort[b++];
+            else
+                temp[tempPos++]= wordsToSort[b++];
         }
+        while(a<(allWordsSize*(k+1))/n)
+            temp[tempPos++]=wordsToSort[a++];
+        while(b<(allWordsSize*(k+2))/n)
+            temp[tempPos++]=wordsToSort[b++];
     }
-    for(unsigned int i =0; i<allWordsSize; i++){
-        wordsToSort[i]=temp[i];
     }
+    wordsToSort = temp;
     merge(n/2);
 }
 

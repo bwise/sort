@@ -15,16 +15,25 @@ int main()
     sort->readData();
     sort->prepareData();
     cout<< "Sorting:\n";
+    for(int i=0; i<100; i++){
     start=chrono::system_clock::now();
     sort->sortData();
     end=chrono::system_clock::now();
-
     sort->outputData("output1.txt");
+    elapsed_seconds+= end-start;
+    }
 
-    elapsed_seconds = end-start;
-    cout<<"Elapsed time Threaded: " << elapsed_seconds.count() << " s\n";
-
-
+    cout<<"Elapsed time Threaded: " << elapsed_seconds.count()/100 << " s\n";
+    chrono::duration<double> elapsed_seconds1;
+    cout<< "Sorting:\n";
+    for(int i=0; i<100; i++){
+    start=chrono::system_clock::now();
+    sort->sortData1();
+    end=chrono::system_clock::now();
+    sort->outputData("output2.txt");
+    elapsed_seconds1+= end-start;
+    }
+    cout<<"Elapsed time Threaded: " << elapsed_seconds1.count()/100 << " s\n";
     return 0;
 }
 
