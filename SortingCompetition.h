@@ -15,17 +15,17 @@ private:
     int* lengthOfWords;
     int* lengthToSort;
     unsigned long allWordsCapacity, allWordsSize;
-    bool lessThan(int&,int&);
+    bool lessThan(long unsigned int&,long unsigned int&);
 
     bool lessThanOrEqual(long unsigned int&, long unsigned int&);
-    void swap(int &, int);
+    void swap(long unsigned int &, long unsigned int);
     void insertionSort(unsigned long int);
-    void quickSort(int, int);
+    void quickSort(unsigned long, unsigned long);
     void quickSortThread(int , int );
-    bool insertionSort(int &, int &);
+    bool insertionSort(long unsigned int &,long unsigned int &);
     void introSort(unsigned long int, unsigned long int,unsigned long int);
     void mergeSort();
-    void merge(int);
+    void merge(long unsigned int);
 public:
     SortingCompetition(const std::string& inputFileName);
     void setFileName(const std::string& inputFileName);
